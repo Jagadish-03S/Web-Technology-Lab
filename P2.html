@@ -1,26 +1,50 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title>Time Table</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Table | Program 2</title>
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: Arial, sans-serif;
             background-color: #f8f9fa;
+            margin: 0;
+            padding: 16px 12px;
+            color: #333;
         }
 
         h1 {
             text-align: center;
-            color: #333;
+            color: #1e293b;
+            margin: 8px 0 16px;
+            font-size: 1.6rem;
+            letter-spacing: -0.5px;
+        }
+
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 12px;
         }
 
         table {
-            width: 90%;
+            width: 98%;
+            max-width: 1200px;
+            min-width: 840px;
             margin: 0 auto;
             border-collapse: collapse;
             border: 2px solid #555;
             background-color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+            border-radius: 6px;
+            overflow: hidden;
         }
 
         th,
@@ -142,7 +166,8 @@
 
     <h1>Time Table</h1>
 
-    <table>
+    <div class="table-container">
+        <table>
 
         <thead>
             <tr>
@@ -234,6 +259,7 @@
         </tbody>
 
     </table>
+    </div>
 
     <script>
         if (window.self === window.top) {

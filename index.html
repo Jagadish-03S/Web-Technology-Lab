@@ -368,11 +368,17 @@
             flex: 1;
             background: #ffffff;
             position: relative;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            overflow: hidden;
         }
 
         .card-iframe {
             width: 100%;
             height: 100%;
+            flex: 1;
+            min-height: 100%;
             border: none;
             display: block;
             background: #ffffff;
@@ -403,6 +409,7 @@
             gap: 1rem;
             width: 100%;
             flex: 1;
+            min-height: 0;
         }
 
         .focused-view.active {
@@ -489,24 +496,31 @@
 
         .focus-stage {
             flex: 1;
-            min-height: 700px;
-            background: var(--bg-card);
+            width: 100%;
+            min-height: 750px;
+            height: calc(100vh - 250px);
+            background: rgba(17, 24, 39, 0.6);
             border: 1px solid var(--border-color);
             border-radius: var(--radius-lg);
-            overflow: hidden;
+            overflow: auto;
             display: flex;
             justify-content: center;
             align-items: stretch;
             padding: 0;
             position: relative;
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
         }
 
         .focus-viewport-wrapper {
             width: 100%;
             height: 100%;
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
             margin: 0 auto;
-            transition: width 0.3s ease;
+            transition: max-width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             background: #ffffff;
+            position: relative;
             box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
         }
 
@@ -517,7 +531,7 @@
         }
 
         .focus-viewport-wrapper.mobile {
-            max-width: 390px;
+            max-width: 420px;
             border-left: 2px solid var(--border-color);
             border-right: 2px solid var(--border-color);
         }
@@ -525,8 +539,11 @@
         .focus-iframe {
             width: 100%;
             height: 100%;
+            min-height: 720px;
+            flex: 1;
             border: none;
             display: block;
+            background: #ffffff;
         }
 
         /* --------------------------------------------- */
@@ -930,9 +947,9 @@
                 </div>
             </div>
 
-            <div class="focus-stage">
+            <div class="focus-stage" id="focusStage">
                 <div class="focus-viewport-wrapper" id="focusWrapper">
-                    <iframe src="P1.html" id="focusFrame" class="focus-iframe" title="Active Focused Module"></iframe>
+                    <iframe src="P1.html" id="focusFrame" class="focus-iframe" title="Active Focused Module" onload="autoResizeFocusFrame()"></iframe>
                 </div>
             </div>
         </div>
@@ -1044,6 +1061,37 @@
 
     <!-- Interactive Script -->
     <script>
+        // Auto-resize focused iframe to match its document content height without clipping
+        function autoResizeFocusFrame() {
+            const frame = document.getElementById('focusFrame');
+            const stage = document.getElementById('focusStage');
+            if (!frame) return;
+
+            try {
+                if (frame.contentWindow && frame.contentWindow.document && frame.contentWindow.document.body) {
+                    const doc = frame.contentWindow.document;
+                    const contentHeight = Math.max(
+                        doc.body.scrollHeight || 0,
+                        doc.documentElement.scrollHeight || 0,
+                        doc.body.offsetHeight || 0,
+                        doc.documentElement.offsetHeight || 0
+                    );
+
+                    if (contentHeight > 200) {
+                        const targetHeight = Math.max(contentHeight + 35, 720);
+                        frame.style.height = targetHeight + 'px';
+                        frame.style.minHeight = targetHeight + 'px';
+                        if (stage) {
+                            stage.style.minHeight = (targetHeight + 10) + 'px';
+                            stage.style.height = (targetHeight + 10) + 'px';
+                        }
+                    }
+                }
+            } catch (e) {
+                // Cross-origin / local file protocol fallback: CSS min-height guarantees full height view
+            }
+        }
+
         // Switch between Multi-Grid, Focus Mode, and Catalog Overview
         function switchMainView(mode) {
             const multiView = document.getElementById('multiGridView');
@@ -1068,6 +1116,7 @@
                 
                 btnMulti.classList.add('active');
                 pillAll.classList.add('active');
+                if (history.replaceState) history.replaceState(null, '', '#multi');
             } else if (mode === 'focus') {
                 multiView.style.display = 'none';
                 focusView.classList.add('active');
@@ -1076,6 +1125,19 @@
                 overviewView.style.display = 'none';
                 
                 btnFocus.classList.add('active');
+
+                // If no module pill is active, activate the one corresponding to current focusFrame src
+                const activePill = document.querySelector('.module-selector-bar .module-tab-btn.active');
+                if (!activePill || activePill.id === 'pillAll') {
+                    const frame = document.getElementById('focusFrame');
+                    const src = (frame && frame.getAttribute('src')) || 'P1.html';
+                    if (src.includes('P2')) document.getElementById('pillP2')?.classList.add('active');
+                    else if (src.includes('P3')) document.getElementById('pillP3')?.classList.add('active');
+                    else if (src.includes('P4')) document.getElementById('pillP4')?.classList.add('active');
+                    else document.getElementById('pillP1')?.classList.add('active');
+                }
+
+                autoResizeFocusFrame();
             } else if (mode === 'overview') {
                 multiView.style.display = 'none';
                 focusView.classList.remove('active');
@@ -1084,6 +1146,7 @@
                 overviewView.style.display = 'grid';
                 
                 btnOverview.classList.add('active');
+                if (history.replaceState) history.replaceState(null, '', '#overview');
             }
         }
 
@@ -1095,6 +1158,15 @@
             const titleEl = document.getElementById('focusTitle');
             const descEl = document.getElementById('focusDesc');
             const openLink = document.getElementById('focusOpenLink');
+            const stage = document.getElementById('focusStage');
+
+            // Reset inline styles before loading new module
+            frame.style.height = '';
+            frame.style.minHeight = '720px';
+            if (stage) {
+                stage.style.minHeight = '750px';
+                stage.style.height = 'calc(100vh - 250px)';
+            }
 
             frame.src = filePath;
             titleEl.textContent = title;
@@ -1106,6 +1178,10 @@
             if (tabElement) {
                 tabElement.classList.add('active');
             }
+
+            // Sync URL hash for direct bookmarking/sharing
+            const moduleId = filePath.replace('.html', '').toLowerCase();
+            if (history.replaceState) history.replaceState(null, '', '#' + moduleId);
         }
 
         // Reload iframe
@@ -1114,7 +1190,10 @@
             if (frame) {
                 const current = frame.src;
                 frame.src = '';
-                setTimeout(() => { frame.src = current; }, 50);
+                setTimeout(() => { 
+                    frame.src = current; 
+                    if (id === 'focusFrame') setTimeout(autoResizeFocusFrame, 200);
+                }, 50);
             }
         }
 
@@ -1130,7 +1209,29 @@
             } else if (device === 'mobile') {
                 wrapper.classList.add('mobile');
             }
+            setTimeout(autoResizeFocusFrame, 100);
         }
+
+        // Auto-select based on URL hash on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            const hash = (window.location.hash || '').toLowerCase();
+            if (hash === '#p1') {
+                selectFocusModule('P1.html', 'Program 1: HTML Formatting & Profile', 'Core HTML5 semantic & text tags', document.getElementById('pillP1'));
+            } else if (hash === '#p2') {
+                selectFocusModule('P2.html', 'Program 2: College Timetable', 'HTML tables, rowspans, and colspans', document.getElementById('pillP2'));
+            } else if (hash === '#p3') {
+                selectFocusModule('P3.html', 'Program 3: CSS Selectors Showcase', 'Adjacent sibling, attribute, pseudo selectors', document.getElementById('pillP3'));
+            } else if (hash === '#p4') {
+                selectFocusModule('P4.html', 'Program 4: Registration Form', 'Form controls, validation, table layout', document.getElementById('pillP4'));
+            } else if (hash === '#overview') {
+                switchMainView('overview');
+            } else {
+                switchMainView('multi');
+            }
+        });
+
+        // Also readjust when window resizes
+        window.addEventListener('resize', autoResizeFocusFrame);
     </script>
 </body>
 </html>
