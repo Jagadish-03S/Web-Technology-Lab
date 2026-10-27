@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Selectors Demonstration | Jagadish S</title>
+    <link rel="stylesheet" href="P3.CSS">
+</head>
+
+<body>
+
+    <div id="main-content">
+        <h2>CSS Selectors Demonstration</h2>
+        <p>This paragraph demonstrates the <strong>adjacent sibling selector (h2 + p)</strong>, styled with custom font size and subtle muted color.</p>
+
+        <hr>
+
+        <h3>Hover over this Heading 3</h3>
+        <p>Notice how hovering over the heading above changes its color smoothly using <code>h3:hover</code> pseudo-class transition.</p>
+
+        <div>
+            <p>This paragraph is inside a generic container demonstrating the <strong>descendant selector (div p)</strong> with custom line height and margins.</p>
+            <span>This is a direct child span styled via child selector (div &gt; span) in teal bold text.</span>
+        </div>
+
+        <p lang="en">This paragraph has an attribute <code>lang="en"</code> and is styled with <em>p[lang]</em> attribute selector (italic text).</p>
+
+        <p>The <span class="highlight">highlighted text here</span> uses the <code>.highlight</code> class selector with custom padding and yellow background.</p>
+
+        <p>Publication timestamp: <time datetime="2026-10-27">October 27, 2026</time> styled via <code>time[datetime]</code> attribute selector.</p>
+
+        <p>Paragraph demonstrating the <code>::first-letter</code> pseudo-element where the initial character is enlarged and styled in bold crimson color.</p>
+
+        <div class="special">
+            <p>This paragraph is inside <code>div.special</code> demonstrating class and descendant selector with indentation and green text styling.</p>
+        </div>
+
+        <hr>
+
+        <p>
+            <a href="https://github.com/Jagadish-03S" target="_blank" rel="noopener noreferrer">Visit My GitHub Profile (Styled Link)</a>
+        </p>
+
+        <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=600&auto=format&fit=crop&q=80" alt="Programming and Web Development Setup" width="500">
+    </div>
+
+    <script>
+        if (window.self === window.top) {
+            document.write('<a href="index.html" style="position:fixed;bottom:16px;right:16px;background:#0f172a;color:#fff;padding:8px 14px;border-radius:99px;font-size:13px;font-family:sans-serif;text-decoration:none;box-shadow:0 4px 15px rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.2);display:flex;align-items:center;gap:6px;z-index:99999;">← Back to Lab Portal</a>');
+        }
+    </script>
+</body>
+
+</html>

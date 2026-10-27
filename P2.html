@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Time Table</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        table {
+            width: 90%;
+            margin: 0 auto;
+            border-collapse: collapse;
+            border: 2px solid #555;
+            background-color: white;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #555;
+        }
+
+        th {
+            background-color: #d9ead3;
+            color: #333;
+        }
+
+        tfoot {
+            background-color: #e8e8e8;
+            font-weight: bold;
+        }
+
+
+        .day {
+            background-color: #fce5cd;
+            font-weight: bold;
+        }
+
+
+
+        .sepm {
+            background-color: #d9ead3;
+        }
+
+        .java {
+            background-color: #fce4ec;
+        }
+
+        .oops {
+            background-color: #fff2cc;
+        }
+
+        .ddco {
+            background-color: #d9d2e9;
+        }
+
+        .ds {
+            background-color: #cfe2f3;
+        }
+
+        .tc {
+            background-color: #ead1dc;
+        }
+
+        .dbms {
+            background-color: #d0e0e3;
+        }
+
+        .web-lab {
+            background-color: #f4cccc;
+        }
+
+        .forum {
+            background-color: #ccf5ff;
+        }
+
+        .se {
+            background-color: #d9ead3;
+        }
+
+        .cg {
+            background-color: #cfe2f3;
+        }
+
+        .python {
+            background-color: #d9d2e9;
+        }
+
+        .os {
+            background-color: #ead1dc;
+        }
+
+        .elective {
+            background-color: #c9daf8;
+        }
+
+        .cn {
+            background-color: #b6d7a8;
+        }
+
+        .ai {
+            background-color: #f9cb9c;
+        }
+
+        .cds {
+            background-color: #d0e0e3;
+        }
+
+        .dvp {
+            background-color: #f4cccc;
+        }
+
+        .ml {
+            background-color: #d9d2e9;
+        }
+
+
+        .break {
+            background-color: #eeeeee;
+            font-weight: bold;
+        }
+
+
+        .lunch {
+            background-color: #fce5cd;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Time Table</h1>
+
+    <table>
+
+        <thead>
+            <tr>
+                <th>Day</th>
+                <th>9:00 - 10:00</th>
+                <th>10:00 - 11:00</th>
+                <th>11:00 - 11:15</th>
+                <th>11:15 - 12:15</th>
+                <th>12:15 - 1:15</th>
+                <th>1:15 - 2:00</th>
+                <th>2:00 - 3:00</th>
+                <th>3:00 - 4:00</th>
+                <th>4:00 - 5:00</th>
+            </tr>
+        </thead>
+
+        <tfoot>
+            <tr>
+                <td colspan="10">End of Timetable</td>
+            </tr>
+        </tfoot>
+
+        <tbody>
+
+            <tr>
+                <td class="day">Monday</td>
+                <td class="sepm">SEPM</td>
+                <td class="java">JAVA</td>
+                <td rowspan="6" class="break">Break</td>
+                <td class="oops">OOPS</td>
+                <td class="ddco">DDCO</td>
+                <td rowspan="6" class="lunch">LUNCH BREAK</td>
+                <td class="ds">DS</td>
+                <td class="tc">TC</td>
+                <td class="dbms">DBMS</td>
+            </tr>
+
+            <tr>
+                <td class="day">Tuesday</td>
+                <td class="web-lab" colspan="2">Web LAB</td>
+                <td class="oops">OOPS</td>
+                <td class="forum">Forum</td>
+                <td class="se">SE</td>
+                <td class="cg">CG</td>
+                <td class="python">Python</td>
+            </tr>
+
+            <tr>
+                <td class="day">Wednesday</td>
+                <td class="oops">OOPS</td>
+                <td class="os">OS</td>
+                <td class="elective">Elective</td>
+                <td class="tc">TC</td>
+                <td class="elective">Elective</td>
+                <td class="cn">CN</td>
+                <td class="ai">AI</td>
+            </tr>
+
+            <tr>
+                <td class="day">Thursday</td>
+                <td class="web-lab" colspan="2">Web LAB</td>
+                <td class="cg">CG</td>
+                <td class="se">SE</td>
+                <td class="cn">CN</td>
+                <td class="cn">CN</td>
+                <td class="dbms">DBMS</td>
+            </tr>
+
+            <tr>
+                <td class="day">Friday</td>
+                <td class="cds">CDS</td>
+                <td class="os">OS</td>
+                <td class="se">SE</td>
+                <td class="dvp">DVP</td>
+                <td colspan="2" class="forum">Forum</td>
+                <td class="ml">Machine Learning</td>
+            </tr>
+
+            <tr>
+                <td class="day">Saturday</td>
+                <td class="cds">CDS</td>
+                <td class="os">OS</td>
+                <td class="web-lab" colspan="2">Web LAB</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+
+        </tbody>
+
+    </table>
+
+    <script>
+        if (window.self === window.top) {
+            document.write('<a href="index.html" style="position:fixed;bottom:16px;right:16px;background:#0f172a;color:#fff;padding:8px 14px;border-radius:99px;font-size:13px;font-family:sans-serif;text-decoration:none;box-shadow:0 4px 15px rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.2);display:flex;align-items:center;gap:6px;z-index:99999;">← Back to Lab Portal</a>');
+        }
+    </script>
+</body>
+
+</html>
